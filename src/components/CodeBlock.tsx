@@ -19,10 +19,10 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ code, title }) => {
 
   return (
     <div 
-      className={`rounded-lg overflow-hidden bg-white border border-gray-200 transition-all duration-300 ease-in-out ${
+      className={`rounded-lg bg-white border border-gray-200 transition-all duration-300 ease-in-out ${
         isFullscreen 
           ? 'fixed top-0 left-0 w-full h-full z-50 rounded-none' 
-          : ''
+          : 'max-h-[500px]'
       }`}
     >
       <div className="flex items-center justify-between p-3 border-b border-gray-200">
@@ -48,7 +48,13 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ code, title }) => {
           )}
         </button>
       </div>
-      <div className={`relative ${isFullscreen ? 'h-[calc(100vh-57px)]' : ''}`}>
+      <div 
+        className={`overflow-auto ${
+          isFullscreen 
+            ? 'h-[calc(100vh-57px)]' 
+            : 'max-h-[calc(500px-57px)]'
+        }`}
+      >
         <Editor
           value={code}
           onValueChange={() => {}}
@@ -58,17 +64,10 @@ export const CodeBlock: React.FC<CodeBlockProps> = ({ code, title }) => {
             fontFamily: '"Fira code", "Fira Mono", monospace',
             fontSize: 14,
             backgroundColor: 'transparent',
-            height: '100%',
-            minHeight: isFullscreen ? 'calc(100vh - 57px)' : 'auto',
           }}
           readOnly
-          className="overflow-auto"
+          className="min-h-full"
         />
-        <div className="absolute right-2 top-2">
-          <div className="flex flex-col gap-1">
-            <div className="w-1 h-24 bg-gray-200 rounded"></div>
-          </div>
-        </div>
       </div>
     </div>
   );
